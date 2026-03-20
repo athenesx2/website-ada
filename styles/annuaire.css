@@ -1,0 +1,40 @@
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 20px;
+    
+}
+
+.page-button {
+    display: inline-block; 
+    text-decoration: none; 
+    color: #120a25;
+    background: #f8f9fa;
+    font-size: 1rem;
+    border: 1px solid #000000; /* Ligne pleine plutôt que pointillée pour plus de sérieux */
+    padding: 12px 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.page-button:hover{
+    background-color: #dedede;
+}
+
+.actual {
+    background: #120a25; /* Inversion des couleurs pour montrer l'onglet actif */
+    color: white;
+    cursor: default;
+    border: 1px solid #120a25;
+}
+.actual:hover {
+    background: #120a25;
+}
+
+.title {
+    text-align: center; /* Centre le texte à l'intérieur de la balise */
+    margin-top: 20px;   /* Ajoute un peu d'espace en haut si besoin */
+    width: 100%;        /* S'assure que le titre prend toute la largeur */
+}
