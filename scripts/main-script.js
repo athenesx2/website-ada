@@ -1,24 +1,33 @@
-// scripts/main-script.js
+/**
+ * scripts/main-script.js
+ */
 
-// Cette fonction charge le header et initialise les événements
+/**
+ * Charge le Header, injecte les données du menu et initialise les événements.
+ */
 function loadHeader() {
     const headerPlaceholder = document.getElementById('header-placeholder');
-    
     if (!headerPlaceholder) return;
 
+    // --- Chargement du contenu HTML du header ---
     fetch('header.html')
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) throw new Error("Fichier header.html introuvable");
+            return response.text();
+        })
         .then(data => {
             headerPlaceholder.innerHTML = data;
-
-            // Une fois le HTML injecté, on attache l'événement au bouton burger
-            const mobileMenu = document.getElementById('mobile-menu');
-            const menuBtn = document.getElementById('list-btn');
-
-            // Source unique des menus : un seul objet décrivant toutes les sections
+            
+            // --- Configuration des données du menu ---
             const menuData = [
-                {
+                {  
+                    title: 'Faire un don',
+                    url: '#1',
+                    links: []
+                },
+                {  
                     title: 'Réseau',
+                    url: '#2',
                     links: [
                         { text: "Annuaires", href: '#' },
                         { text: "Contacts Entreprises", href: '#' },
@@ -27,6 +36,7 @@ function loadHeader() {
                 },
                 {
                     title: 'Événements',
+                    url: '#3',
                     links: [
                         { text: "Événements de l'association", href: '#' },
                         { text: 'Actus MPCI', href: '#' },
@@ -35,6 +45,7 @@ function loadHeader() {
                 },
                 {
                     title: 'Carrière',
+                    url: '#4',
                     links: [
                         { text: 'Offres de stage/emploi', href: '#' },
                         { text: 'Espace recruteur', href: '#' },
@@ -43,6 +54,7 @@ function loadHeader() {
                 },
                 {
                     title: "L'association",
+                    url: '#5',
                     links: [
                         { text: 'Le bureau', href: '#' },
                         { text: "Petit mot sur l'asso", href: '#' },
@@ -50,91 +62,112 @@ function loadHeader() {
                     ]
                 }
             ];
-            
 
-            // rendu du menu mobile (génère les mêmes sections)
-            const mobileContainer = mobileMenu; // #mobile-menu
-            if (mobileContainer) {
-                // clear existing (if any)
-                mobileContainer.innerHTML = '';
-                menuData.forEach(section => {
-                    const id = 'list-' + section.title;
-
-                    const buttonWrap = document.createElement('div');
-                    buttonWrap.className = 'mobile-dropdown-button';
-
-                    const textA = document.createElement('a');
-                    textA.className = 'mobile-dropdown-button-text';
-                    textA.href = '#';
-                    textA.textContent = section.title;
-
-                    const iconA = document.createElement('a');
-                    iconA.className = 'mobile-dropdown-button-icon toggle-btn';
-                    iconA.id = id; // id kept for reference but CSS now uses .toggle-btn
-                    iconA.innerHTML = '<i class="fa-solid fa-angle-down"></i> <i class="fa-solid fa-angle-up"></i>';
-
-                    // sous-menu
-                    const sub = document.createElement('div');
-                    sub.className = 'dropdown-dropdown';
-                    sub.id = section.title + '-menu';
-                    section.links.forEach(l => {
-                        const a = document.createElement('a');
-                        a.href = l.href;
-                        a.textContent = l.text;
-                        sub.appendChild(a);
-                    });
-
-                    buttonWrap.appendChild(textA);
-                    buttonWrap.appendChild(iconA);
-                    mobileContainer.appendChild(buttonWrap);
-                    mobileContainer.appendChild(sub);
-
-                    // comportement: clic sur l'icône ouvre/ferme le sous-menu
-                    iconA.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        sub.classList.toggle('active');
-                        iconA.classList.toggle('is-open');
-                    });
-                });
-
-                document.addEventListener('click', () => {
-                    mobileContainer.classList.remove('active');
-                    if (menuBtn) menuBtn.classList.remove('is-open');
-                    // fermer tous les sous-menus
-                    mobileContainer.querySelectorAll('.dropdown-dropdown.active').forEach(el => el.classList.remove('active'));
-                    mobileContainer.querySelectorAll('.toggle-btn.is-open').forEach(el => el.classList.remove('is-open'));
-                });
-            }
-
-            // burger
-            if (menuBtn && mobileMenu) {
-                menuBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    mobileMenu.classList.toggle('active');
-                    menuBtn.classList.toggle('is-open');
-                });
-            }
+            initMobileMenu(menuData);
         })
-        .catch(err => console.error("Erreur header:", err));
+        .catch(err => console.error("Erreur Header :", err));
 }
 
+/**
+ * Génère dynamiquement le menu mobile et gère les interactions (ouverture/fermeture).
+ * @param {Array} menuData - Liste des catégories et liens du menu.
+ */
+function initMobileMenu(menuData) {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuBtn = document.getElementById('list-btn');
 
+    if (!mobileMenu) return;
 
+    // Génération du contenu HTML du menu
+    mobileMenu.innerHTML = ''; // Nettoyage préalable
+
+    menuData.forEach(section => {
+        // Conteneur de la ligne (Titre + Icône)
+        const buttonWrap = document.createElement('div');
+        buttonWrap.className = 'mobile-dropdown-button';
+
+        // Lien de titre de section
+        const textA = document.createElement('a');
+        textA.className = 'mobile-dropdown-button-text';
+        textA.href = section.url;
+        textA.textContent = section.title;
+
+        // Bouton icône pour déplier
+        const iconA = document.createElement('a');
+        iconA.className = 'mobile-dropdown-button-icon toggle-btn';
+        iconA.id = 'list-' + section.title;
+        iconA.innerHTML = '<i class="fa-solid fa-angle-down"></i> <i class="fa-solid fa-angle-up"></i>';
+        
+        // CONDITION : On ne l'affiche que s'il y a des liens
+        if (section.links.length === 0) {
+            iconA.style.display = 'none'; // Cache l'icône
+        }
+
+        // Sous-menu contenant les liens
+        const subMenu = document.createElement('div');
+        subMenu.className = 'dropdown-dropdown'; 
+        
+        section.links.forEach(link => {
+            const a = document.createElement('a');
+            a.href = link.href;
+            a.textContent = link.text;
+            subMenu.appendChild(a);
+        });
+
+        // Assemblage des éléments
+        buttonWrap.appendChild(textA);
+        buttonWrap.appendChild(iconA);
+        mobileMenu.appendChild(buttonWrap);
+        mobileMenu.appendChild(subMenu);
+
+        // Gestion du clic sur l'icône de dropdown 
+        iconA.addEventListener('click', (e) => {
+            e.stopPropagation();
+            subMenu.classList.toggle('active');
+            iconA.classList.toggle('is-open');
+        });
+    });
+
+    // Gestion de l'ouverture globale du menu mobile
+    if (menuBtn) {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('active');
+            menuBtn.classList.toggle('is-open');
+        });
+    }
+
+    // Fermeture globale au clic n'importe où ailleurs sur la page
+    document.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        if (menuBtn) menuBtn.classList.remove('is-open');
+        
+        // On referme aussi tous les sous-menus ouverts
+        mobileMenu.querySelectorAll('.dropdown-dropdown.active').forEach(el => el.classList.remove('active'));
+        mobileMenu.querySelectorAll('.toggle-btn.is-open').forEach(el => el.classList.remove('is-open'));
+    });
+}
+
+/**
+ * Charge le Footer de manière asynchrone.
+ */
 function loadFooter() {
     const footerPlaceholder = document.getElementById('footer-placeholder');
-
     if (!footerPlaceholder) return;
 
     fetch('footer.html')
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) throw new Error("Fichier footer.html introuvable");
+            return response.text();
+        })
         .then(data => {
             footerPlaceholder.innerHTML = data;
-
-          
         })
-        .catch(err => console.error("Erreur footer:", err));
+        .catch(err => console.error("Erreur Footer :", err));
 }
 
-
-window.addEventListener('DOMContentLoaded', loadHeader);
-window.addEventListener('DOMContentLoaded', loadFooter);
+// Initialisation au chargement du DOM
+window.addEventListener('DOMContentLoaded', () => {
+    loadHeader();
+    loadFooter();
+});

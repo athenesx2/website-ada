@@ -13,5 +13,16 @@ body {
 /* Le main va s'étirer pour combler le vide */
 main {
     flex: 1;
+    padding-top: 220px; 
 }
 
+@media (max-width: 1200px) {
+    main {
+        padding-top: 250px; 
+    }
+}
+@media (max-width: 600px) {
+    main {
+        padding-top: 80px; 
+    }
+}
