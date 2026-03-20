@@ -2,8 +2,175 @@
 
     background-color: #1a6188; /* Gris très clair par exemple */
     text-align: center;
-    padding: 20px 10%;
-    position: fixed;
-    bottom: 0;
+    padding: 40px 0;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Espace entre les éléments du footer */
+
+}
+.footer-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;gap: 20px;
+}
+
+.footer-logos-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px; /* Espace entre les logos */
+    border-right: #ffffff 4px solid; /* Ligne de séparation à droite */
+    
+}
+.footer-logos-container .photo-logo {
+    height: 80px; /* Taille plus petite pour le footer */
+    width: auto;
+}
+.footer-logos-container .mpci-logo {
+    height: 120px; /* Taille plus petite pour le footer */
+    width: auto;
+}
+@media (max-width: 1300px) {
+    .footer-logos-container {
+        
+        padding-bottom: 20px; /* Espace en bas du conteneur de logos */
+    }
+    .footer-logos-container .photo-logo{
+        height: 60px;
+    }
+    .footer-logos-container .mpci-logo {
+        height: 100px; /* Taille encore plus petite pour les petits écrans */  
+    }
+}
+@media (max-width: 1000px) {
+    .footer-logos-container {
+        
+        padding-bottom: 20px; /* Espace en bas du conteneur de logos */
+    }
+    .footer-logos-container .photo-logo{
+        height: 50px;
+    }
+    .footer-logos-container .mpci-logo {
+        height: 80px; /* Taille encore plus petite pour les petits écrans */  
+    }
+
+}
+@media (max-width: 900px) {
+.main-footer {
+   display: block;}
+.footer-logos-container .photo-logo {
+        height: 80px; /* Taille plus petite pour les écrans plus petits */
+    }
+    .footer-logos-container .mpci-logo {
+        height: 120px; /* Taille plus petite pour les écrans plus petits */  
+    }
+}
+
+.footer-social-container {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    border-right: #ffffff 4px solid; /* Ligne de séparation à droite */
+    /* Espace en haut du texte et des icônes */ 
+    padding: 0px 20px; 
+    padding-top: 10px; /* Espace à gauche et à droite du texte et des icônes */   
+    min-height: 110px; /* Largeur minimale pour éviter que le texte ne soit trop serré */
+}
+
+.footer-social-container p {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0 0 10px 0; /* Marge en bas pour séparer du texte des icônes */
+}
+
+.social-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Espace entre les icônes de réseaux sociaux */
+}
+.social-icons .social-icon {
+    font-size: 45px;
+    color: white;
+    width: auto;
+    transition: all 0.3s ease;
+}
+.social-icons .social-icon:hover {
+    transform: scale(1.2); /* Agrandissement de l'icône au survol */
+    color: #881a1a; /* Couleur de survol pour les icônes de réseaux sociaux */
+    transition: all 0.3s ease; /* Transition douce pour le changement de couleur */
+}
+
+.footer-legal-container {
+    display: block;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 20px; /* Espace en haut du texte et des icônes */ 
+    min-height: 110px; /* Largeur minimale pour éviter que le texte ne soit trop serré */
+}
+
+.footer-legal-container p {
+    color: white;
+    font-size: 1rem;
+    font-weight: 400;
+    margin-top: 0; /* Supprime la marge par défaut du paragraphe */
+}
+.footer-legal-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.footer-legal-links a {
+    color: white;
+    text-decoration: none;
+    margin: 2px 0; /* Espace entre les liens */
+}   
+.footer-legal-links a:hover {
+    text-decoration: underline; /* Soulignement au survol */
+}
+
+@media (max-width: 700px) {
+    
+    .footer-logos-container .photo-logo{
+        height: 60px;
+    }
+    .footer-logos-container .mpci-logo {
+        height: 100px; /* Taille encore plus petite pour les petits écrans */  
+    }
+}
+@media (max-width: 600px) {
+    .main-footer {
+        flex-direction: column; /* Empile les éléments verticalement sur les petits écrans */
+        gap: 30px; /* Espace entre les éléments du footer sur les petits écrans */
+    }
+    .footer-info-container {
+        flex-direction: column; /* Empile les éléments du conteneur d'informations verticalement sur les petits écrans */
+        gap: 20px; /* Espace entre les éléments du conteneur d'informations sur les petits écrans */
+    }
+    .footer-logos-container {
+        border-right: none; /* Supprime la ligne de séparation sur les petits écrans */
+         /* Ajoute une ligne de séparation en bas du conteneur de logos */
+    }
+    .footer-social-container {
+        padding-left: 20%;
+        padding-right: 20%;
+        border-top: #ffffff 4px solid;
+        border-right: none; /* Supprime la ligne de séparation sur les petits écrans */
+        border-bottom: #ffffff 4px solid; /* Ajoute une ligne de séparation en bas du conteneur social */
+    }
+}
+
+@media (max-width: 500px) {
+    .footer-logos-container .photo-logo {
+        height: 40px; /* Taille encore plus petite pour les très petits écrans */
+    }
+    .footer-logos-container{
+        gap: 20px;
+    }
+    .footer-logos-container .mpci-logo {
+        height: 60px; /* Taille encore plus petite pour les très petits écrans */
+    }
 }
