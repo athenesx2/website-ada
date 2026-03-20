@@ -1,0 +1,9 @@
+.main-footer {
+
+    background-color: #1a6188; /* Gris très clair par exemple */
+    text-align: center;
+    padding: 20px 10%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

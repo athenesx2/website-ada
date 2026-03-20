@@ -1,0 +1,381 @@
+/* responsive rule: 0--600px--inf px */
+
+
+
+.main-header {
+    width: 100%;
+    align-items: center;
+}
+
+.main-header::after {
+    content: "";
+    position: absolute;
+    height: 4px;
+    background-color: #1a6188; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;}
+
+.first-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1a6188; /* Gris très clair par exemple */
+    padding:0px 10%;
+}
+
+@media (max-width: 1100px) and (min-width: 601px) {
+    .first-header {
+        display: block;
+        padding-bottom: 10px;
+
+    }
+}
+@media (max-width: 700px) {
+    .first-header {
+        
+        padding-left: 10px;
+        padding-right: 0px;
+    }
+}
+
+.logo-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0px 50px;
+}
+
+@media (max-width: 1250px) {
+    .logo-container {
+        padding: 0px 20px;
+    }
+}
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.photo-logo {
+    height: 150px; /* Taille fixe plus propre pour un header double */
+    width: auto;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.search-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-left: auto; /* Pousse le conteneur de recherche à droite */  
+}
+/* Conteneur pour grouper l'input et le bouton (à ajouter dans votre HTML si possible) */
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    border-radius: 25px;    /* Forme pilule très moderne */
+    overflow: hidden;       /* Pour que les enfants respectent l'arrondi du parent */
+    background-color: #fff;
+    transition: box-shadow 0.3s ease;
+    margin-right: 20px; /* Espace entre la barre de recherche et le bouton de connexion */
+}
+
+.search-bar {
+    padding: 10px 15px;
+    border: none;
+    outline: none; /* Supprime le contour bleu par défaut du navigateur */
+    width: 200px;
+    font-size: 0.9rem;
+}
+
+.search-button {
+    padding: 10px 15px;
+    border: none;
+    background-color: transparent;
+    color: #1a6188;
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.search-button:hover {
+    color: #0d3d57; 
+    transform: scale(1.1); 
+}
+
+
+
+.first-header-button {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 15px;
+    border: 2px solid #ffffff; 
+    background-color: #ffffff;
+    color: #000000;
+    cursor: pointer;
+    margin-right: 20px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    gap: 4px;
+}
+
+.first-header-button .filled {
+    display: none;
+}
+
+.first-header-button:hover .filled {
+    display: inline-block;
+}
+
+.first-header-button .empty {
+    display: inline-block;
+}
+
+.first-header-button:hover .empty {
+    display: none;
+}
+
+
+.first-header-button:hover {
+    border-color: #ffffff;
+    background-color: #1a6188;     
+    color: #ffffff;
+    transition: none;
+}
+
+.icon-container {
+    display: none; /* Caché par défaut, affiché sur les petits écrans */
+    margin: 15px;
+}
+.icon-button {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+
+
+.second-header {
+    display: flex;
+    justify-content: center;
+    background-color: #ffffff;
+        padding:0px 10%;
+}
+
+
+
+.nav-button {
+    padding: 15px 20px;
+    margin: 5px 3%; 
+    color: #1a6188;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+@media (max-width: 700px) {
+    .nav-button {
+        margin: 5px 2%;
+    }
+}
+.nav-button:hover {
+    transform: scale(1.2);
+    color: #881a1a;
+    transition: all 0.3s;
+}
+.nav-button::after {
+    content: "";
+    position: absolute;
+    bottom: 10%;     
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;          
+    height: 3px;      
+    background-color: #881a1a;
+    transition: width 0.3s ease; 
+}
+.nav-button:hover::after {
+    width: 100%; /* La barre prend toute la largeur du bouton */
+}
+
+
+/* Le menu déroulant (caché par défaut) */
+.dropdown-menu {
+    display: none;             /* Cache le menu */
+    position: absolute;        /* Le détache du flux pour flotter dessous */
+    top: 100%;                 /* Se place juste en bas du bouton parent */
+    left: 0;
+    background-color: #ffffff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+    z-index: 10;               /* Passe au-dessus du reste du contenu */
+    border-radius: 4px;
+    padding: 0px 0;
+}
+
+/* Style des liens à l'intérieur du menu */
+.dropdown-menu a {
+    color: #1a6188;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;            /* Un lien par ligne */
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f1f1f1;
+    color: #881a1a;
+}
+
+/* LA MAGIE : On affiche le menu quand on survole le parent (.nav-item) */
+.nav-button:hover .dropdown-menu {
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .photo-logo {
+        height: 60px; /* Réduction de la taille du logo sur les écrans plus petits */
+    }
+    .logo {
+        display: none;
+    }
+    .search-container {
+        display: none; /* Réduction de l'espace pour la recherche sur les petits écrans */
+    }
+    .icon-container {
+        display: flex; /* Affiche les icônes sur les petits écrans */
+    }
+    .second-header {
+        display: none; /* Cache la navigation principale sur les petits écrans */
+    }
+}
+
+
+
+
+
+
+.mobile-menu-container {
+    position: relative;
+    display: inline-block;
+}
+
+.mobile-dropdown {
+    display: none; 
+    position: fixed;   
+    top: 65px;        
+    left: 0;           
+    right: 0;          
+    width: 100vw;      
+    background-color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    z-index: 999;
+    flex-direction: column;
+    padding: 0px 0;
+    border-bottom: 2px solid #1a6188; 
+}
+
+.mobile-dropdown.active {
+    display: flex !important; 
+}
+
+.mobile-dropdown-button {
+    display: flex;
+    align-items: stretch; 
+    background-color: #ffffff;
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s;
+}
+
+/* Quand on survole n'importe où dans le bloc, le fond devient gris */
+.mobile-dropdown-button:hover {
+    background-color: #f4f4f4;
+}
+
+.mobile-dropdown-button-text {
+    flex-grow: 1; /* Le texte prend toute la place disponible à gauche */
+    padding: 15px 20px;
+    color: #1a6188 !important;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.mobile-dropdown-button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    color: #1a6188 !important;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+/* Optionnel : changer la couleur de l'icône ou du texte spécifiquement au survol */
+.mobile-dropdown-button-text:hover, .mobile-dropdown-button-icon:hover {
+    color: #881a1a !important;
+}
+
+.dropdown-dropdown {
+    display: none;     
+    left: 0;           
+    right: 0;          
+    width: 100vw;      
+    background-color: #ffffff;
+    z-index: 999;
+    flex-direction: column;
+    padding: 0px 0;
+}
+
+
+.dropdown-dropdown.active {
+    display: flex !important; 
+}
+
+.dropdown-dropdown a {
+
+    display: flex;
+    align-items: stretch; 
+    background-color: #ffffff;
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s;
+    flex-grow: 1; /* Le texte prend toute la place disponible à gauche */
+    padding: 15px 20px;
+    color: #1a6188 !important;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding-left: 60px; /* Décalage pour indiquer que c'est un sous-menu */
+}
+.dropdown-dropdown a:hover {
+    background-color: #f4f4f4;
+    color: #881a1a !important;
+}
+
+#list-btn .fa-angle-up {
+    display: none;
+}
+
+#list-btn.is-open .fa-bars {
+    display: none; 
+}
+
+#list-btn.is-open .fa-angle-up {
+    display: inline-block; 
+}
+.toggle-btn .fa-angle-up {
+    display: none;
+}
+
+.toggle-btn.is-open .fa-angle-down {
+    display: none;
+}
+
+.toggle-btn.is-open .fa-angle-up {
+    display: inline-block;
+}
