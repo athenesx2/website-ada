@@ -20,11 +20,11 @@ function loadHeader() {
                 },
                 {  
                     title: 'Réseau',
-                    url: '#2',
+                    url: 'reseau.html',
                     links: [
-                        { text: "Annuaires", href: '#' },
-                        { text: "Contacts Entreprises", href: '#' },
-                        { text: "Carte des Alumnis", href: '#' }
+                        { text: "Annuaires", href: 'annuaire.html' },
+                        { text: "Contacts Entreprises", href: 'entreprises.html' },
+                        { text: "Carte des Alumnis", href: 'carte.html' }
                     ]
                 },
                 {

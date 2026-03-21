@@ -19,6 +19,7 @@
     transition: all 0.3s ease;
 }
 
+
 .page-button:hover{
     background-color: #dedede;
 }
@@ -29,12 +30,31 @@
     cursor: default;
     border: 1px solid #120a25;
 }
+
+@media (max-width:600px) {
+  .page-button{ width: 23%;
+    height: 2.5rem;
+    font-size: 0.8rem;
+padding: 5px 5px;
+font-weight: 500;
+display: flex;
+justify-content: center;
+align-items: center;
+text-align: center;
+}  
+.actual{
+    width: 31%;
+    height: 3rem;
+    font-weight: 600;
+}
+}
 .actual:hover {
     background: #120a25;
 }
 
 .title {
     text-align: center;
-    margin-top: 20px;   
-    width: 100%;        
+    margin-top: 20px;       
+    margin-right: 10px; 
+    margin-left: 10px;   
 }
