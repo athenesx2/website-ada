@@ -10,6 +10,35 @@ body {
     min-height: 100vh; /* Toute la hauteur de l'écran */
 }
 
+/* Conteneur de la barre */
+#progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: transparent;
+    z-index: 2000; /* Doit être au-dessus du header (1000) */
+}
+
+/* La barre elle-même */
+#progress-bar {
+    width: 1%;
+    height: 100%;
+    background-color: #ffffff; /* Ta couleur d'accentuation */
+    transition: none;
+}
+
+/* Écran blanc de masquage */
+#loading-overlay {
+    position: fixed;
+    top: 225px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 1500; /* Entre le contenu et la barre */
+}
 /* Le main va s'étirer pour combler le vide */
 main {
     flex: 1;

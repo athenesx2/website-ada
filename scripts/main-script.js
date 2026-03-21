@@ -5,19 +5,12 @@
 /**
  * Charge le Header, injecte les données du menu et initialise les événements.
  */
+// Modifie tes fonctions de chargement existantes :
 function loadHeader() {
-    const headerPlaceholder = document.getElementById('header-placeholder');
-    if (!headerPlaceholder) return;
-
-    // --- Chargement du contenu HTML du header ---
     fetch('header.html')
-        .then(response => {
-            if (!response.ok) throw new Error("Fichier header.html introuvable");
-            return response.text();
-        })
+        .then(response => response.text())
         .then(data => {
-            headerPlaceholder.innerHTML = data;
-            
+            document.getElementById('header-placeholder').innerHTML = data;
             // --- Configuration des données du menu ---
             const menuData = [
                 {  
@@ -166,8 +159,86 @@ function loadFooter() {
         .catch(err => console.error("Erreur Footer :", err));
 }
 
-// Initialisation au chargement du DOM
+/**
+ * Gère la barre de progression et l'overlay
+ * @param {number} percent - Pourcentage de progression
+ * @param {boolean} useOverlay - Si vrai, gère l'opacité de l'écran blanc
+ */
+function updateProgress(percent, useOverlay = false) {
+    const bar = document.getElementById('progress-bar');
+    if (!bar) return;
+    if (percent > 0 && percent <= 100) {
+        // On active la transition pour que la barre "glisse" vers l'avant
+        bar.style.transition = "width 0.4s ease";
+        bar.style.width = percent + "%";
+    }
+    if (percent >= 100) {
+        setTimeout(() => {
+            if (useOverlay) {
+                const overlay = document.getElementById('loading-overlay');
+                if (overlay) {
+                    overlay.style.opacity = '0';
+                    setTimeout(() => overlay.style.display = 'none', 500);
+                }
+            }
+            // Reset de la barre pour la prochaine navigation
+            setTimeout(() => { bar.style.transition = "none"
+                 bar.style.width = "0%"; }, 400);
+        }, 10);
+    }
+}
+
+/**
+ * Navigation fluide (SPA) entre les pages internes
+ */
+function initSpaNavigation() {
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (link && link.href.includes(window.location.origin) && !link.hash) {
+            e.preventDefault();
+            const targetUrl = link.href;
+
+            updateProgress(20, false); // Pas d'overlay ici, on reste sur l'ancienne page
+
+            fetch(targetUrl)
+                .then(response => response.text())
+                .then(html => {
+                    updateProgress(60, false);
+                    
+                    const parser = new DOMParser();
+                    const newDoc = parser.parseFromString(html, 'text/html');
+                    const newMain = newDoc.querySelector('main').innerHTML;
+                    
+                    document.querySelector('main').innerHTML = newMain;
+                    window.history.pushState({}, '', targetUrl);
+                    window.scrollTo(0, 0);
+                    
+                    updateProgress(100, false);
+                })
+                .catch(() => window.location.href = targetUrl);
+        }
+    });
+}
+
+// Chargement initial (Premier accès ou Refresh)
+window.addEventListener('DOMContentLoaded', () => {
+    // Ici on utilise TRUE pour l'overlay car c'est un chargement complet de page
+    const bar = document.getElementById('progress-bar');
+    updateProgress(10, true); 
+    
+    Promise.all([loadHeader()]).then(() => {
+        updateProgress(60, true);
+    });
+     Promise.all([loadFooter()]).then(() => {
+        updateProgress(100, true);
+    });
+
+    initSpaNavigation();
+});
+
+// Appel de la fonction au chargement initial
 window.addEventListener('DOMContentLoaded', () => {
     loadHeader();
     loadFooter();
+    initSpaNavigation();
 });

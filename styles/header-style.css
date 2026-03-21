@@ -147,12 +147,18 @@
 
 .nav-button {
     position: relative;
+    display: inline-block;
+    cursor: pointer;
+    transition: all 0.3s;
     padding: 15px 20px;
     margin: 5px 3%; 
+}
+.nav-link{
     color: #1a6188;
     text-decoration: none;
     font-weight: 500;
     transition: all 0.3s;
+    text-decoration: none;
 }
 .nav-button::before {
     content: "";
@@ -167,6 +173,8 @@
 
 .nav-button:hover {
     transform: scale(1.2);
+}
+.nav-button:hover .nav-link{
     color: #881a1a;
 }
 
