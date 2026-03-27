@@ -20,7 +20,7 @@ function loadHeader() {
                 },
                 {  
                     title: 'Réseau',
-                    url: 'reseau.html',
+                    url: 'annuaire.html',
                     links: [
                         { text: "Annuaires", href: 'annuaire.html' },
                         { text: "Contacts Entreprises", href: 'entreprises.html' },

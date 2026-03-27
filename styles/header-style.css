@@ -152,6 +152,11 @@
     transition: all 0.3s;
     padding: 15px 20px;
     margin: 5px 3%; 
+    color: #1a6188;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s;
+    text-decoration: none;
 }
 .nav-link{
     color: #1a6188;

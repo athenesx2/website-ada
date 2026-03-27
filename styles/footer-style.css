@@ -152,6 +152,7 @@
     .main-footer {
         flex-direction: column;
         gap: 30px;
+        padding: 20px 0px;
     }
     .footer-info-container {
         flex-direction: column;
