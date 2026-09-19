@@ -1,0 +1,330 @@
+/* ==========================================================================
+   Styles de la page Profil Alumni
+   ========================================================================== */
+
+.profile-page {
+    width: min(860px, calc(100% - 28px));
+    margin: 16px auto 36px;
+}
+
+.profile-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+    color: #1a6188;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.15s, transform 0.15s;
+}
+
+.profile-back:hover {
+    color: #0e3d57;
+    text-decoration: underline;
+    transform: translateX(-2px);
+}
+
+/* --- Carte d'en-tête unifiée (Bannière + Identité à gauche + Coordonnées à droite) --- */
+.profile-header-card {
+    margin-bottom: 14px;
+    border: 1px solid #d6d6d6;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.profile-banner {
+    height: 100px;
+    background: linear-gradient(115deg, #1a6188, #68456f);
+}
+
+.profile-overview {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 8px 22px 18px;
+    background: #ffffff;
+}
+
+/* Bloc gauche : Avatar & Informations */
+.profile-overview-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    min-width: 0;
+    flex: 1 1 auto;
+    margin-top: -34px;
+}
+
+.profile-avatar {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: 3.5px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    background: #5b6577;
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.profile-identity {
+    padding-top: 38px;
+    min-width: 0;
+}
+
+.profile-name {
+    margin: 0;
+    color: #120a25;
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.profile-promo {
+    margin: 2px 0 0;
+    color: #6b7280;
+    font-size: 0.84rem;
+    font-weight: 500;
+}
+
+.profile-current-job {
+    margin: 5px 0 0;
+    color: #1f2937;
+    font-size: 0.94rem;
+    font-weight: 600;
+}
+
+.profile-current-company {
+    margin: 2px 0 0;
+    color: #4b4b4b;
+    font-size: 0.9rem;
+}
+
+.profile-city {
+    margin: 3px 0 0;
+    color: #6b7280;
+    font-size: 0.84rem;
+}
+
+/* Bloc droit : Coordonnées alignées à droite dans le bandeau */
+.profile-overview-contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+    padding-top: 14px;
+}
+
+.profile-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    align-items: flex-end;
+}
+
+.profile-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #374151;
+    font-size: 0.88rem;
+}
+
+.profile-contact-item i {
+    color: #1a6188;
+    width: 15px;
+    text-align: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.profile-contact-link {
+    color: #1a6188;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s, text-decoration 0.15s;
+}
+
+.profile-contact-link:hover {
+    color: #0e3d57;
+    text-decoration: underline;
+}
+
+/* --- Sections de contenu --- */
+.profile-section {
+    margin-bottom: 14px;
+    padding: 18px 22px;
+    border: 1px solid #d6d6d6;
+    background: #ffffff;
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.05);
+}
+
+.profile-section-title {
+    margin: 0 0 14px;
+    color: #120a25;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.profile-bio {
+    margin: 0;
+    color: #374151;
+    line-height: 1.55;
+    font-size: 0.94rem;
+    white-space: pre-line;
+}
+
+/* Timeline (Expériences & Formations) */
+.profile-timeline {
+    display: grid;
+    gap: 14px;
+}
+
+.profile-timeline-item {
+    padding-left: 14px;
+    border-left: 3px solid #1a6188;
+}
+
+.profile-item-title {
+    margin: 0;
+    color: #120a25;
+    font-size: 0.96rem;
+    font-weight: 600;
+}
+
+.profile-item-organization {
+    margin: 3px 0 0;
+    color: #4b4b4b;
+    font-size: 0.9rem;
+}
+
+.profile-item-period {
+    margin: 3px 0 0;
+    color: #6b7280;
+    font-size: 0.82rem;
+}
+
+/* Compétences */
+.profile-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.profile-skill {
+    padding: 5px 10px;
+    border-radius: 6px;
+    background: #eaf2f6;
+    color: #1a6188;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Projets */
+.profile-projects {
+    display: grid;
+    gap: 12px;
+}
+
+.profile-project {
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: #f8fafc;
+}
+
+.profile-project .profile-item-title {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.profile-project-description {
+    margin: 6px 0;
+    color: #4b4b4b;
+    font-size: 0.9rem;
+    line-height: 1.45;
+}
+
+.profile-project-link {
+    color: #1a6188;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.profile-project-link:hover {
+    text-decoration: underline;
+}
+
+.profile-message {
+    padding: 28px;
+    text-align: center;
+    color: #4b4b4b;
+}
+
+/* --- Responsive design --- */
+@media (max-width: 680px) {
+    .profile-page {
+        width: min(100% - 20px, 860px);
+        margin: 12px auto 28px;
+    }
+
+    .profile-overview {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+        padding: 5px 16px 16px;
+    }
+
+    .profile-overview-main {
+        align-items: flex-start;
+        gap: 14px;
+        margin-top: -28px;
+    }
+
+    .profile-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 1.05rem;
+        border-width: 3px;
+    }
+
+    .profile-identity {
+        padding-top: 30px;
+    }
+
+    .profile-overview-contact {
+        align-items: flex-start;
+        padding-top: 12px;
+        border-top: 1px solid #e5e7eb;
+        width: 100%;
+    }
+
+    .profile-contact-list {
+        align-items: flex-start;
+    }
+
+    .profile-section {
+        padding: 16px;
+        margin-bottom: 12px;
+    }
+
+    .profile-banner {
+        height: 80px;
+    }
+}

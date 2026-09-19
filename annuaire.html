@@ -2,10 +2,13 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annuaire des membres | Association des Alumni MPCI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/header-style.css"> <link rel="stylesheet" href="styles/footer-style.css"> <link rel="stylesheet" href="styles/annuaire.css">
     <script src="scripts/main-script.js" defer></script>
-    
+    <script src="scripts/annuaire-script.js" defer></script>
 </head>
 <body>
     <div id="progress-container">
@@ -22,15 +25,113 @@
         <a href="carte.html" class="page-button">Carte des Alumnis</a>
     </div>
 
-    <div style="text-align: center; margin-top: 20px;">
-        <input type="text" placeholder="Rechercher..." style="padding: 10px; width: 300px; border-radius: 5px; border: 1px solid #ccc;">
-    </div>
-    <!-- tri:
-     par promo 
-     par nom 
-     par nom d'entreprise/école
-     
-     -->
+    <section class="directory" aria-labelledby="directory-heading">
+        <h2 id="directory-heading" class="visually-hidden">Liste des membres</h2>
+
+        <!-- Barre compacte sur une seule ligne -->
+        <div class="directory-bar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+                <input id="alumni-search" type="search" placeholder="Rechercher…" autocomplete="off" aria-label="Rechercher un membre">
+            </div>
+
+            <div class="sort-box">
+                <label for="alumni-sort" class="sort-label">Trier par :</label>
+                <div class="select-wrapper">
+                    <select id="alumni-sort" class="sort-select" aria-label="Trier par">
+                        <option value="name">Nom</option>
+                        <option value="promo-desc">Promotion (récente)</option>
+                        <option value="promo-asc">Promotion (ancienne)</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="button" id="toggle-filters-btn" class="filters-btn" aria-expanded="false" aria-controls="filters-panel">
+                <span class="filters-btn-text">Filtres</span>
+                <span id="filters-badge" class="filters-badge" style="display: none;">0</span>
+                <span class="filters-btn-arrow" aria-hidden="true">▾</span>
+            </button>
+
+            <p id="directory-count" class="directory-count" aria-live="polite">Chargement…</p>
+        </div>
+
+        <!-- Panneau dépliable des filtres -->
+        <div id="filters-panel" class="filters-panel" hidden aria-label="Filtres avancés">
+            <div class="filters-grid">
+                <div class="filter-item">
+                    <label for="alumni-promo-filter">Promotion</label>
+                    <select id="alumni-promo-filter">
+                        <option value="">Toutes</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="alumni-company-filter">Entreprise</label>
+                    <select id="alumni-company-filter">
+                        <option value="">Toutes</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="alumni-school-filter">École</label>
+                    <select id="alumni-school-filter">
+                        <option value="">Toutes</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="alumni-degree-filter">Master / Diplôme</label>
+                    <select id="alumni-degree-filter">
+                        <option value="">Tous</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="alumni-domain-filter">Domaine d'études</label>
+                    <select id="alumni-domain-filter">
+                        <option value="">Tous</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="alumni-city-filter">Ville</label>
+                    <select id="alumni-city-filter">
+                        <option value="">Toutes</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label for="alumni-country-filter">Pays</label>
+                    <select id="alumni-country-filter">
+                        <option value="">Tous</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filters-bottom-row">
+                <div class="filters-checkboxes">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="filter-status-student">
+                        <span class="checkbox-box"></span>
+                        <span>Étudiant</span>
+                    </label>
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="filter-status-job-seeking">
+                        <span class="checkbox-box"></span>
+                        <span>En recherche d'emploi</span>
+                    </label>
+                </div>
+
+                <button type="button" id="reset-alumni-filters" class="reset-filters-btn">
+                    Effacer les filtres
+                </button>
+            </div>
+        </div>
+
+        <div id="alumni-list" class="alumni-grid" aria-live="polite" aria-busy="true">
+            <p class="directory-message">Chargement de l'annuaire…</p>
+        </div>
+    </section>
     </main>
     <div id="footer-placeholder"></div>
 </body>

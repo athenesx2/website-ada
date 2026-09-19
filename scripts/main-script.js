@@ -7,7 +7,7 @@
  */
 // Modifie tes fonctions de chargement existantes :
 function loadHeader() {
-    fetch('header.html')
+    return fetch('header.html')
         .then(response => response.text())
         .then(data => {
             document.getElementById('header-placeholder').innerHTML = data;
@@ -146,9 +146,9 @@ function initMobileMenu(menuData) {
  */
 function loadFooter() {
     const footerPlaceholder = document.getElementById('footer-placeholder');
-    if (!footerPlaceholder) return;
+    if (!footerPlaceholder) return Promise.resolve();
 
-    fetch('footer.html')
+    return fetch('footer.html')
         .then(response => {
             if (!response.ok) throw new Error("Fichier footer.html introuvable");
             return response.text();
@@ -188,36 +188,110 @@ function updateProgress(percent, useOverlay = false) {
     }
 }
 
-/**
- * Navigation fluide (SPA) entre les pages internes
- */
+/** Charge les feuilles de style déclarées par la page cible, si nécessaire. */
+function loadPageStyles(pageDocument, pageUrl) {
+    const stylesheets = Array.from(
+        pageDocument.querySelectorAll('link[rel="stylesheet"][href]')
+    );
+
+    return Promise.all(stylesheets.map((stylesheet) => {
+        const stylesheetUrl = new URL(stylesheet.getAttribute('href'), pageUrl).href;
+        const alreadyLoaded = Array.from(
+            document.head.querySelectorAll('link[rel="stylesheet"]')
+        ).some((link) => link.href === stylesheetUrl);
+
+        if (alreadyLoaded) return Promise.resolve();
+
+        return new Promise((resolve) => {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = stylesheetUrl;
+            link.addEventListener('load', resolve, { once: true });
+            link.addEventListener('error', resolve, { once: true });
+            document.head.appendChild(link);
+        });
+    }));
+}
+
+/** Charge une page interne sans recharger le header et le footer. */
+function navigateTo(targetUrl, addToHistory = true) {
+    updateProgress(20, false);
+
+    return fetch(targetUrl)
+        .then((response) => {
+            if (!response.ok) throw new Error(`Réponse HTTP ${response.status}`);
+            return response.text();
+        })
+        .then((html) => {
+            updateProgress(60, false);
+            const parser = new DOMParser();
+            const pageDocument = parser.parseFromString(html, 'text/html');
+            const newMain = pageDocument.querySelector('main');
+            if (!newMain) throw new Error('Contenu principal introuvable');
+
+            return loadPageStyles(pageDocument, targetUrl).then(() => {
+                document.querySelector('main').innerHTML = newMain.innerHTML;
+                if (addToHistory) window.history.pushState({}, '', targetUrl);
+                window.scrollTo(0, 0);
+                initialisePageContent();
+                updateProgress(100, false);
+            });
+        })
+        .catch(() => {
+            if (addToHistory) {
+                window.location.href = targetUrl;
+            } else {
+                window.location.reload();
+            }
+        });
+}
+
+/** Navigation fluide (SPA) entre les pages internes, avec support du bouton Retour. */
 function initSpaNavigation() {
-    document.addEventListener('click', (e) => {
-        const link = e.target.closest('a');
-        if (link && link.href.includes(window.location.origin) && !link.hash) {
-            e.preventDefault();
-            const targetUrl = link.href;
+    document.addEventListener('click', (event) => {
+        const link = event.target.closest('a');
+        const isInternalLink = link
+            && link.href.startsWith(window.location.origin)
+            && !link.hash
+            && !event.ctrlKey
+            && !event.metaKey
+            && !event.shiftKey
+            && !event.altKey;
 
-            updateProgress(20, false); // Pas d'overlay ici, on reste sur l'ancienne page
+        if (!isInternalLink) return;
 
-            fetch(targetUrl)
-                .then(response => response.text())
-                .then(html => {
-                    updateProgress(60, false);
-                    
-                    const parser = new DOMParser();
-                    const newDoc = parser.parseFromString(html, 'text/html');
-                    const newMain = newDoc.querySelector('main').innerHTML;
-                    
-                    document.querySelector('main').innerHTML = newMain;
-                    window.history.pushState({}, '', targetUrl);
-                    window.scrollTo(0, 0);
-                    
-                    updateProgress(100, false);
-                })
-                .catch(() => window.location.href = targetUrl);
-        }
+        event.preventDefault();
+        navigateTo(link.href);
     });
+
+    window.addEventListener('popstate', () => {
+        navigateTo(window.location.href, false);
+    });
+}
+
+/**
+ * Relance les scripts propres à une page après le remplacement de <main>.
+ * Les balises script d'une page chargée avec fetch ne sont pas exécutées par
+ * le navigateur : l'annuaire est donc chargé à la demande si nécessaire.
+ */
+function initialisePageContent() {
+    const pageScript = document.getElementById('alumni-list')
+        ? { source: 'scripts/annuaire-script.js', initializer: 'initAnnuaire' }
+        : document.getElementById('profile-content')
+            ? { source: 'scripts/profil-script.js', initializer: 'initProfil' }
+            : null;
+
+    if (pageScript && typeof window[pageScript.initializer] !== 'function') {
+        const script = document.createElement('script');
+        script.src = pageScript.source;
+        script.addEventListener('load', () => {
+            document.dispatchEvent(new Event('page:loaded'));
+        }, { once: true });
+        document.head.appendChild(script);
+        return;
+    }
+
+    document.dispatchEvent(new Event('page:loaded'));
 }
 
 // Chargement initial (Premier accès ou Refresh)
@@ -226,19 +300,12 @@ window.addEventListener('DOMContentLoaded', () => {
     const bar = document.getElementById('progress-bar');
     updateProgress(10, true); 
     
-    Promise.all([loadHeader()]).then(() => {
+    loadHeader().then(() => {
         updateProgress(60, true);
     });
-     Promise.all([loadFooter()]).then(() => {
+    loadFooter().then(() => {
         updateProgress(100, true);
     });
 
-    initSpaNavigation();
-});
-
-// Appel de la fonction au chargement initial
-window.addEventListener('DOMContentLoaded', () => {
-    loadHeader();
-    loadFooter();
     initSpaNavigation();
 });
